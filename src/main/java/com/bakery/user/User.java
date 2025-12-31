@@ -1,4 +1,5 @@
 package com.bakery.user;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +13,12 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "users", indexes = {
+        @Index(name = "idx_users_role", columnList = "role"),
+        @Index(name = "idx_users_is_active", columnList = "is_active")
+})
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,6 +46,7 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    private Long createdBy;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
+    private User createdBy;
 }

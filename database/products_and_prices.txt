@@ -1,0 +1,11 @@
+Product name	Price(VND)
+Cơm cháy	35
+Bánh hấp	15
+Chà bông	40
+Staff		20
+Bánh xu xuê	6
+Bánh cốm	6
+Bánh gai	6
+Bánh bao	25
+Bánh giò	18
+Bánh cadé	10

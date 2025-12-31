@@ -1,0 +1,17 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: bakery-mysql
+    restart: always  # Always restart the container when crashed
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bakery_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - bakery_mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+volumes:
+  bakery_mysql_data:
