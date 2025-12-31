@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: bakery-manager
+  profiles:
+    active: dev
+  jpa:
+    open-in-view: false
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: bakery-manager
+    description: Bakery Management System
+    version: 1.0.0
+
+logging:
+  level:
+    root: WARN
