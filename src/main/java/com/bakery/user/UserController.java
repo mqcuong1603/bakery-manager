@@ -5,7 +5,6 @@ import com.bakery.user.dto.UpdateUserRequest;
 import com.bakery.user.dto.UserResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
