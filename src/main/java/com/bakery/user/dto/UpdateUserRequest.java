@@ -1,6 +1,5 @@
 package com.bakery.user.dto;
 
-import com.bakery.user.Role;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -21,8 +20,6 @@ public class UpdateUserRequest {
 
     @Pattern(regexp = "^0\\d{9}$", message = "Phone must be 10 digits and start with 0")
     private String phone;
-
-    private Role role;
 
     private Boolean isActive;
 }
