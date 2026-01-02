@@ -1,37 +1,28 @@
 package com.bakery.user.dto;
 
 import com.bakery.user.Role;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * DTO for updating an existing user.
- * All fields are optional - only update what's provided.
- *
- * TODO: Add validation annotations similar to CreateUserRequest
- * but all fields are optional (no @NotBlank)
- */
 @Getter
 @Setter
 public class UpdateUserRequest {
 
-    // TODO 1: Optional, but if provided must be 3-50 characters
+    @Size(min = 3, max = 50)
     private String username;
 
-    // TODO 2: Optional, but if provided must be min 6 characters
-    // Note: Should be hashed before saving!
+    @Size(min = 6)
     private String password;
 
-    // TODO 3: Optional, max 100 characters
+    @Size(max = 100)
     private String fullName;
 
-    // TODO 4: Optional phone
+    @Pattern(regexp = "^0\\d{9}$", message = "Phone must be 10 digits and start with 0")
     private String phone;
 
-    // TODO 5: Optional role change
     private Role role;
 
-    // TODO 6: Optional - for soft delete/restore
     private Boolean isActive;
 }

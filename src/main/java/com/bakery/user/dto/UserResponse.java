@@ -7,12 +7,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-/**
- * DTO for returning user data to client.
- * Note: Never include password in response!
- *
- * TODO: Implement the static factory method fromEntity()
- */
 @Getter
 @Setter
 public class UserResponse {
@@ -25,26 +19,19 @@ public class UserResponse {
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Long createdById;  // Just the ID, not the full User object
+    private Long createdById;
 
-    /**
-     * Convert User entity to UserResponse DTO.
-     *
-     * TODO: Implement this method
-     * - Create new UserResponse
-     * - Copy all fields from User entity
-     * - For createdBy, just get the ID (if not null)
-     * - Return the UserResponse
-     *
-     * Example:
-     * UserResponse response = new UserResponse();
-     * response.setId(user.getId());
-     * response.setUsername(user.getUsername());
-     * ... etc
-     * return response;
-     */
     public static UserResponse fromEntity(User user) {
-        // TODO: Implement this conversion
-        return null;
+        UserResponse response = new UserResponse();
+        response.setId(user.getId());
+        response.setUsername(user.getUsername());
+        response.setFullName(user.getFullName());
+        response.setPhone(user.getPhone());
+        response.setRole(user.getRole());
+        response.setIsActive(user.getIsActive());
+        response.setCreatedAt(user.getCreatedAt());
+        response.setUpdatedAt(user.getUpdatedAt());
+        response.setCreatedById(user.getCreatedBy() != null ? user.getCreatedBy().getId() : null);
+        return response;
     }
 }

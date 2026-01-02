@@ -2,6 +2,7 @@ package com.bakery.user.dto;
 
 import com.bakery.user.Role;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -25,14 +26,12 @@ public class CreateUserRequest {
     private String password;
 
     @NotBlank
-    @Size(min = 3, max = 50)
+    @Size(min = 3, max = 100)
     private String fullName;
 
-    @Pattern(regexp = "^[0-9]{10,15}$", message = "Invalid phone number")
+    @Pattern(regexp = "^0\\d{9}$", message = "Phone must be 10 digits and start with 0")
     private String phone;
 
-    // TODO 5: Add validation
-    // - Required, must be OWNER or STAFF
-    // Hint: @NotNull
+    @NotNull
     private Role role;
 }
