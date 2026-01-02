@@ -6,7 +6,7 @@ import com.bakery.user.dto.UserResponse;
 import com.bakery.user.exception.UserNotFoundException;
 import com.bakery.user.exception.UsernameAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
