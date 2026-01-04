@@ -1,132 +1,135 @@
 package com.bakery.user;
 
+import com.bakery.user.dto.ChangePasswordRequest;
 import com.bakery.user.dto.CreateUserRequest;
 import com.bakery.user.dto.UpdateUserRequest;
 import com.bakery.user.dto.UserResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * REST Controller for User operations.
- *
- * TODO: Implement all endpoints below.
- *
- * Key concepts:
- * - @RestController: Combines @Controller + @ResponseBody
- * - @RequestMapping: Base path for all endpoints
- * - @Valid: Triggers validation on request body
- * - ResponseEntity: Allows setting HTTP status codes
- *
- * HTTP Status codes to use:
- * - 200 OK: Successful GET, PUT
- * - 201 Created: Successful POST
- * - 204 No Content: Successful DELETE
- * - 400 Bad Request: Validation errors
- * - 404 Not Found: Resource not found
- * - 409 Conflict: Duplicate username
+ * Staff Management Controller
+ * <p>
+ * Endpoints:
+ * - POST   /api/staff              - U-03: Create Staff Account (OWNER)
+ * - GET    /api/staff              - U-04: View All Staff (OWNER)
+ * - GET    /api/staff/{id}         - Get single staff (OWNER)
+ * - PUT    /api/staff/{id}         - U-05: Update Staff Info (OWNER)
+ * - DELETE /api/staff/{id}         - U-06: Deactivate Staff (OWNER)
+ * - PUT    /api/staff/{id}/activate - Activate Staff (OWNER)
+ * - PUT    /api/staff/{id}/password - U-07: Change Password (OWNER or SELF)
  */
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/staff")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
     /**
-     * POST /api/users - Create a new user
-     *
-     * TODO: Implement
-     * - Use @Valid to validate request body
-     * - Return 201 Created with the created user
-     *
-     * Example:
-     * @PostMapping
-     * public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
-     *     UserResponse response = userService.createUser(request, null);
-     *     return ResponseEntity.status(HttpStatus.CREATED).body(response);
-     * }
+     * @param request Staff creation data
+     * @return Created staff with 201 status
      */
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
-        // TODO: Implement
-        return null;
+    @PreAuthorize("hasRole('OWNER')")
+    public ResponseEntity<UserResponse> createStaff(@Valid @RequestBody CreateUserRequest request) {
+        UserResponse response = userService.createStaff(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     /**
-     * GET /api/users - Get all users
+     * U-04: View All Staff
+     * Only OWNER can view all staff members.
      *
-     * TODO: Implement
+     * @return List of all staff members
      */
     @GetMapping
-    public ResponseEntity<List<UserResponse>> getAllUsers() {
-        // TODO: Implement
-        return null;
+    @PreAuthorize("hasRole('OWNER')")
+    public ResponseEntity<List<UserResponse>> getAllStaff() {
+        List<UserResponse> staffList = userService.findAllStaff();
+        return ResponseEntity.ok(staffList);
     }
 
     /**
-     * GET /api/users/{id} - Get user by ID
+     * Get Staff by ID
+     * Only OWNER can view staff details.
      *
-     * TODO: Implement using @PathVariable
+     * @param id Staff ID
+     * @return Staff details
      */
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
-        // TODO: Implement
-        return null;
+    @PreAuthorize("hasRole('OWNER')")
+    public ResponseEntity<UserResponse> getStaffById(@PathVariable Long id) {
+        UserResponse response = userService.findById(id);
+        return ResponseEntity.ok(response);
     }
 
     /**
-     * GET /api/users/active - Get all active users
+     * U-05: Update Staff Info
+     * Only OWNER can update staff information.
      *
-     * TODO: Implement
-     */
-    @GetMapping("/active")
-    public ResponseEntity<List<UserResponse>> getActiveUsers() {
-        // TODO: Implement
-        return null;
-    }
-
-    /**
-     * GET /api/users/role/{role} - Get users by role
-     *
-     * TODO: Implement
-     * Example: GET /api/users/role/STAFF
-     */
-    @GetMapping("/role/{role}")
-    public ResponseEntity<List<UserResponse>> getUsersByRole(@PathVariable Role role) {
-        // TODO: Implement
-        return null;
-    }
-
-    /**
-     * PUT /api/users/{id} - Update user
-     *
-     * TODO: Implement
+     * @param id      Staff ID
+     * @param request Update data
+     * @return Updated staff
      */
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUser(
+    @PreAuthorize("hasRole('OWNER')")
+    public ResponseEntity<UserResponse> updateStaff(
             @PathVariable Long id,
             @Valid @RequestBody UpdateUserRequest request) {
-        // TODO: Implement
-        return null;
+        UserResponse response = userService.updateUser(id, request);
+        return ResponseEntity.ok(response);
     }
 
     /**
-     * DELETE /api/users/{id} - Soft delete user
+     * U-06: Deactivate Staff (Soft Delete)
+     * Only OWNER can deactivate staff accounts.
      *
-     * TODO: Implement
-     * - Return 204 No Content on success
-     *
-     * Example:
-     * userService.deleteUser(id);
-     * return ResponseEntity.noContent().build();
+     * @param id Staff ID
+     * @return 204 No Content
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        // TODO: Implement
-        return null;
+    @PreAuthorize("hasRole('OWNER')")
+    public ResponseEntity<Void> deactivateStaff(@PathVariable Long id) {
+        userService.deactivateUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Activate Staff
+     * Only OWNER can reactivate staff accounts.
+     *
+     * @param id Staff ID
+     * @return 204 No Content
+     */
+    @PutMapping("/{id}/activate")
+    @PreAuthorize("hasRole('OWNER')")
+    public ResponseEntity<Void> activateStaff(@PathVariable Long id) {
+        userService.activateUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * U-07: Change Password
+     * - OWNER can change any staff's password
+     * - STAFF can only change their own password
+     *
+     * @param id      Staff ID
+     * @param request Old and new password
+     * @return 204 No Content
+     */
+    @PutMapping("/{id}/password")
+    @PreAuthorize("hasRole('OWNER') or @userSecurity.isCurrentUser(#id)")
+    public ResponseEntity<Void> changePassword(
+            @PathVariable Long id,
+            @Valid @RequestBody ChangePasswordRequest request) {
+        userService.changePassword(id, request);
+        return ResponseEntity.noContent().build();
     }
 }
