@@ -1,4 +1,4 @@
-package com.bakery.user;
+package com.bakery.shared.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;

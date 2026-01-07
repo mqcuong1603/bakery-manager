@@ -1,4 +1,4 @@
-package com.bakery.user.exception;
+package com.bakery.shared.user.exception;
 
 public class UserNotFoundException extends RuntimeException {
 

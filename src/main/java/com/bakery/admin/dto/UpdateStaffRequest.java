@@ -1,4 +1,4 @@
-package com.bakery.user.dto;
+package com.bakery.admin.dto;
 
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -7,15 +7,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UpdateUserRequest {
+public class UpdateStaffRequest {
 
-    @Size(min = 3, max = 50)
+    @Size(min = 3, max = 50, message = "Username must be 3-50 characters")
     private String username;
 
-    @Size(min = 6)
-    private String password;
-
-    @Size(max = 100)
+    @Size(max = 100, message = "Full name must be at most 100 characters")
     private String fullName;
 
     @Pattern(regexp = "^0\\d{9}$", message = "Phone must be 10 digits and start with 0")

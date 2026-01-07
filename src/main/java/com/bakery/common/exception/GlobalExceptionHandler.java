@@ -1,8 +1,8 @@
 package com.bakery.common.exception;
 
-import com.bakery.user.exception.InvalidPasswordException;
-import com.bakery.user.exception.UserNotFoundException;
-import com.bakery.user.exception.UsernameAlreadyExistsException;
+import com.bakery.shared.user.exception.InvalidPasswordException;
+import com.bakery.shared.user.exception.UserNotFoundException;
+import com.bakery.shared.user.exception.UsernameAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,19 +13,8 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Global exception handler for REST API.
- * Converts exceptions to proper HTTP responses.
- *
- * @RestControllerAdvice: Applies to all controllers
- * @ExceptionHandler: Catches specific exception types
- */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    /**
-     * Handle UserNotFoundException -> 404 Not Found
-     */
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleUserNotFound(UserNotFoundException ex) {
         Map<String, Object> body = new HashMap<>();
@@ -37,9 +26,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
     }
 
-    /**
-     * Handle InvalidPasswordException -> 400 Bad Request
-     */
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<Map<String, Object>> handleInvalidPassword(InvalidPasswordException ex) {
         Map<String, Object> body = new HashMap<>();
@@ -51,9 +37,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
 
-    /**
-     * Handle UsernameAlreadyExistsException -> 409 Conflict
-     */
     @ExceptionHandler(UsernameAlreadyExistsException.class)
     public ResponseEntity<Map<String, Object>> handleUsernameExists(UsernameAlreadyExistsException ex) {
         Map<String, Object> body = new HashMap<>();
@@ -65,9 +48,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
     }
 
-    /**
-     * Handle validation errors -> 400 Bad Request
-     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationErrors(MethodArgumentNotValidException ex) {
         Map<String, Object> body = new HashMap<>();

@@ -1,14 +1,10 @@
-package com.bakery.user.dto;
+package com.bakery.account.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * DTO for changing user password.
- * Requires old password for verification.
- */
 @Getter
 @Setter
 public class ChangePasswordRequest {

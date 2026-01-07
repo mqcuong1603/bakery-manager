@@ -1,4 +1,4 @@
-package com.bakery.user;
+package com.bakery.shared.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,6 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByRole(Role role);
 
-    List<User> findByIsActiveTrue();
+    List<User> findByRoleAndIsActiveTrue(Role role);
 
+    List<User> findByIsActiveTrue();
 }
