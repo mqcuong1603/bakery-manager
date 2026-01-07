@@ -13,10 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "users", indexes = {
-        @Index(name = "idx_users_role", columnList = "role"),
-        @Index(name = "idx_users_is_active", columnList = "is_active")
-})
+@Table(name = "users")
 public class User {
 
     @Id
